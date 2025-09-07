@@ -2,7 +2,7 @@
 require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
 ?>
 
-<h2>Editar Usuario</h2>
+<h2 class="text-2xl font-bold mb-4">Editar Usuario</h2>
 
 <div style="background:white; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); max-width:600px; margin:2rem auto;">
     <form method="POST" action="<?= URL_BASE ?>dashboard/administrador/usuarios.php?action=update&id=<?= $usuario['id'] ?>" enctype="multipart/form-data">

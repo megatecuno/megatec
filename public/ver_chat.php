@@ -28,7 +28,7 @@ $chatModel->markAsRead($chat_id, $_SESSION['user_id']);
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
 ?>
 
-<h2>Chat sobre <?= htmlspecialchars($chatInfo['articulo_titulo']) ?></h2>
+<h2 class="text-2xl font-bold mb-4">Chat sobre <?= htmlspecialchars($chatInfo['articulo_titulo']) ?></h2>
 <div style="background:white; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); max-width:800px; margin:2rem auto;">
     <div style="max-height:400px; overflow-y:auto; border:1px solid #eee; padding:1rem; margin-bottom:1rem;">
         <?php foreach ($mensajes as $mensaje): ?>

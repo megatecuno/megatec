@@ -2,7 +2,7 @@
 require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
 ?>
 
-<h2>Gestionar Usuarios</h2>
+<h2 class="text-2xl font-bold mb-4">Gestionar Usuarios</h2>
 
 <div style="background:white; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); max-width:800px; margin:2rem auto;">
     <table>

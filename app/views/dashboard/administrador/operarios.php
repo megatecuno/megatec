@@ -2,7 +2,7 @@
 require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
 ?>
 
-<h2>Gestionar Permisos de Operarios</h2>
+<h2 class="text-2xl font-bold mb-4">Gestionar Permisos de Operarios</h2>
 
 <?php foreach ($operarios as $operario): ?>
 <form method="POST" action="<?= URL_BASE ?>dashboard/administrador/actualizar_permisos.php">

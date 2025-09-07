@@ -6,7 +6,7 @@ require_once dirname(__dir__, 3) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_
 requirelogin();
 
 if ($_SESSION['user_rol'] !== 'administrador') {
-    header("location: " . url_base);
+    header("location: " . URL_BASE);
     exit;
 }
 

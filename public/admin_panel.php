@@ -6,15 +6,15 @@ require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEP
 requirelogin();
 
 if ($_SESSION['user_rol'] !== 'administrador') {
-    header("location: " . url_base);
+    header("location: " . URL_BASE);
     exit;
 }
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
 ?>
 
-<h2>Nuevo Panel de Administrador</h2>
-<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin:2rem 0;">
+<h2 class="text-2xl font-bold mb-4">Nuevo Panel de Administrador</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <a href="<?= URL_BASE ?>dashboard/administrador/usuarios.php" style="background:#4db6ac; color:white; padding:1rem; border-radius:8px; text-align:center; text-decoration:none;">
         ?? Gestionar Usuarios
     </a>
