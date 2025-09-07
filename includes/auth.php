@@ -4,25 +4,29 @@ require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPAR
 
 session_start();
 
-function isLoggedIn() {
+function isLoggedIn()
+{
     return isset($_SESSION['user_id']);
 }
 
-function getUserRole() {
+function getUserRole()
+{
     return $_SESSION['user_rol'] ?? null;
 }
 
-function requireLogin() {
+function requireLogin()
+{
     if (!isLoggedIn()) {
         header("Location: " . URL_BASE . "login.php");
         exit;
     }
 }
 
-function redirectByRole() {
+function redirectByRole()
+{
     $role = getUserRole();
     if ($role === 'administrador') {
-        header("Location: " . URL_BASE . "dashboard/administrador/index.php");
+        header("Location: " . URL_BASE . "admin_panel.php");
         exit;
     } elseif ($role === 'operario') {
         header("Location: " . URL_BASE . "dashboard/operario/index.php");
@@ -35,4 +39,3 @@ function redirectByRole() {
         exit;
     }
 }
-?>

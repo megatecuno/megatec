@@ -85,6 +85,19 @@ CREATE TABLE IF NOT EXISTS chat (
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
 );
 
+-- Tabla de permisos de operario
+CREATE TABLE IF NOT EXISTS permisos_operario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    operario_id INT NOT NULL,
+    subir_banners BOOLEAN DEFAULT FALSE,
+    modificar_perfiles_usuarios BOOLEAN DEFAULT FALSE,
+    usar_chat BOOLEAN DEFAULT FALSE,
+    publicar_contenido BOOLEAN DEFAULT FALSE,
+    cambiar_perfil BOOLEAN DEFAULT TRUE,
+    UNIQUE KEY unique_operario (operario_id),
+    FOREIGN KEY (operario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
 -- Insertar usuarios de ejemplo
 INSERT IGNORE INTO usuarios (nombre, email, password, rol) VALUES
 ('Admin MegaTec', 'admin@megatec.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'administrador'),

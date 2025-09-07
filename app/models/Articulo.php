@@ -80,5 +80,15 @@ class Articulo extends Database {
         $this->bind(':orden', $orden);
         return $this->execute();
     }
+
+    public function getByCategoria($categoria_id, $estado = 'activo') {
+        $this->query("SELECT a.*, c.nombre as categoria_nombre 
+                      FROM articulos a 
+                      LEFT JOIN categorias c ON a.categoria_id = c.id 
+                      WHERE a.categoria_id = :categoria_id AND a.estado = :estado");
+        $this->bind(':categoria_id', $categoria_id);
+        $this->bind(':estado', $estado);
+        return $this->resultSet();
+    }
 }
 ?>

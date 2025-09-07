@@ -75,9 +75,6 @@ class AuthController {
                 $fileExt = strtolower(pathinfo($avatar['name'], PATHINFO_EXTENSION));
                 
                 if (in_array($fileExt, $allowedTypes)) {
-                    $newFileName = 'avatar_' . $_SESSION['user_id'] . '.' . $fileExt;
-                    $uploadPath = RUTA_UPLOADS . 'avatares/' . $newFileName;
-                    
                     // Eliminar avatar anterior si existe
                     $avatarDir = RUTA_UPLOADS . 'avatares/';
                     $files = glob($avatarDir . 'avatar_' . $_SESSION['user_id'] . '.*');
@@ -86,14 +83,24 @@ class AuthController {
                             unlink($file);
                         }
                     }
+
+                    $newFileName = 'avatar_' . $_SESSION['user_id'] . '.webp';
+                    $uploadPath = RUTA_UPLOADS . 'avatares/' . $newFileName;
+
+                    $image = imagecreatefromstring(file_get_contents($avatar['tmp_name']));
+                    $resizedImage = imagescale($image, 50, 50);
                     
-                    if (move_uploaded_file($avatar['tmp_name'], $uploadPath)) {
+                    if (imagewebp($resizedImage, $uploadPath, 50)) {
                         $this->usuarioModel->updateAvatar($_SESSION['user_id'], $newFileName);
                         $_SESSION['user_avatar'] = $newFileName;
                         $_SESSION['mensaje'] = "Avatar actualizado correctamente.";
                     } else {
                         $_SESSION['error'] = "Error al subir el avatar.";
                     }
+
+                    imagedestroy($image);
+                    imagedestroy($resizedImage);
+
                 } else {
                     $_SESSION['error'] = "Tipo de archivo no permitido. Solo JPG, JPEG, PNG, GIF.";
                 }
@@ -109,11 +116,11 @@ class AuthController {
         <h2>Mi Perfil</h2>
         <div style="background:white; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); max-width:600px; margin:2rem auto;">
             <div style="display:flex; align-items:center; gap:2rem; margin-bottom:2rem;">
-                <div style="width:100px; height:100px; background:#ddd; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <div style="width:50px; height:50px; background:#ddd; border-radius:50%; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                     <?php if (!empty($_SESSION['user_avatar']) && file_exists(RUTA_UPLOADS . 'avatares/' . $_SESSION['user_avatar'])): ?>
-                        <img src="<?= URL_BASE ?>uploads/avatares/<?= $_SESSION['user_avatar'] ?>" alt="Avatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                        <img src="<?= URL_BASE ?>uploads/avatares/<?= $_SESSION['user_avatar'] ?>" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
                     <?php else: ?>
-                        <span>👤</span>
+                        <span style="font-size: 24px;">👤</span>
                     <?php endif; ?>
                 </div>
                 <div>

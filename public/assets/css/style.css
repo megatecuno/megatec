@@ -11,3 +11,7 @@ a {
 button, input, select, textarea {
     font-family: Arial, sans-serif;
 }
+
+.search-bar {
+    max-width: 700px;
+}

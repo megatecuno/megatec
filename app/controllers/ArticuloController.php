@@ -130,5 +130,11 @@ class ArticuloController {
         <?php require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'footer.php'; ?>
         <?php
     }
+
+    public function ver($id) {
+        $articulo = $this->articuloModel->getById($id);
+        $imagenes = $this->articuloModel->getImagenes($id);
+        require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'articulo' . DIRECTORY_SEPARATOR . 'ver.php';
+    }
 }
 ?>
