@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     avatar VARCHAR(255) DEFAULT 'default-avatar.png',
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     activo BOOLEAN DEFAULT TRUE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de categorías
 CREATE TABLE IF NOT EXISTS categorias (
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS categorias (
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion TEXT,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de artículos
 CREATE TABLE IF NOT EXISTS articulos (
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS articulos (
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (creador_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de imágenes de artículos
 CREATE TABLE IF NOT EXISTS imagenes_articulo (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS imagenes_articulo (
     ruta_imagen VARCHAR(500) NOT NULL,
     orden TINYINT DEFAULT 1,
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de carrito
 CREATE TABLE IF NOT EXISTS carrito (
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS carrito (
     UNIQUE KEY unique_carrito_item (usuario_id, articulo_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de favoritos
 CREATE TABLE IF NOT EXISTS favoritos (
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS favoritos (
     UNIQUE KEY unique_favorito (usuario_id, articulo_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de chat
 CREATE TABLE IF NOT EXISTS chat (
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS chat (
     FOREIGN KEY (remitente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (destinatario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Tabla de permisos de operario
 CREATE TABLE IF NOT EXISTS permisos_operario (
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS permisos_operario (
     cambiar_perfil BOOLEAN DEFAULT TRUE,
     UNIQUE KEY unique_operario (operario_id),
     FOREIGN KEY (operario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+) DEFAULT CHARSET=utf8mb4;
 
 -- Insertar usuarios de ejemplo
 INSERT IGNORE INTO usuarios (nombre, email, password, rol) VALUES
@@ -106,16 +106,16 @@ INSERT IGNORE INTO usuarios (nombre, email, password, rol) VALUES
 
 -- Insertar categorías
 INSERT IGNORE INTO categorias (nombre, descripcion) VALUES
-('Electrónica', 'Dispositivos electrónicos y gadgets.'),
+('Electronica', 'Dispositivos electronicos y gadgets.'),
 ('Informática', 'Computadoras, componentes y accesorios.'),
-('Celulares', 'Teléfonos móviles y accesorios.'),
+('Celulares', 'Telefonos moviles y accesorios.'),
 ('Videojuegos', 'Consolas, juegos y accesorios.'),
-('Herramientas', 'Herramientas manuales y eléctricas.'),
-('Vehículos', 'Autos, motos y accesorios.'),
-('Antigüedades', 'Objetos antiguos y coleccionables.'),
-('Componentes', 'Componentes electrónicos y de computación.'),
+('Herramientas', 'Herramientas manuales y electricas.'),
+('Vehiculos', 'Autos, motos y accesorios.'),
+('Antiguedades', 'Objetos antiguos y coleccionables.'),
+('Componentes', 'Componentes electronicos y de computacion.'),
 ('Accesorios', 'Accesorios varios.'),
-('Juguetes', 'Juguetes para niños y adultos.'),
+('Juguetes', 'Juguetes para ninos y adultos.'),
 ('Cuidado Personal', 'Productos de belleza y cuidado personal.'),
 ('Servicios', 'Servicios varios.'),
 ('Varios', 'Productos varios.');

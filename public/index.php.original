@@ -1,0 +1,208 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'auth.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'Articulo.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'Favorito.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'Banner.php';
+
+$articuloModel = new Articulo();
+$favoritoModel = new Favorito();
+$bannerModel = new Banner();
+$articulos = $articuloModel->getAll('activo');
+
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'header.php';
+?>
+
+<!-- Banners debajo del header -->
+<?php
+$headerBottomBanners = $bannerModel->getByUbicacion('header_bottom');
+if (!empty($headerBottomBanners)):
+?>
+    <div class="banner-container" style="margin-top: 20px;">
+        <?php foreach ($headerBottomBanners as $banner): ?>
+            <div class="banner">
+                <?php if ($banner['tipo'] === 'imagen' && !empty($banner['imagen_url'])): ?>
+                    <?php if (!empty($banner['link_url'])): ?>
+                        <a href="<?= htmlspecialchars($banner['link_url']) ?>" target="_blank">
+                            <img src="<?= URL_BASE ?>uploads/banners/<?= htmlspecialchars($banner['imagen_url']) ?>"
+                                alt="<?= htmlspecialchars($banner['titulo']) ?>"
+                                style="width:100%; height:auto; max-height:250px; object-fit:cover;">
+                        </a>
+                    <?php else: ?>
+                        <img src="<?= URL_BASE ?>uploads/banners/<?= htmlspecialchars($banner['imagen_url']) ?>"
+                            alt="<?= htmlspecialchars($banner['titulo']) ?>"
+                            style="width:100%; height:auto; max-height:250px; object-fit:cover;">
+                    <?php endif; ?>
+                <?php else: ?>
+                    <div style="padding:15px; text-align:center;">
+                        <h4><?= htmlspecialchars($banner['titulo']) ?></h4>
+                        <?php if (!empty($banner['link_url'])): ?>
+                            <a href="<?= htmlspecialchars($banner['link_url']) ?>" target="_blank">Ver más</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<h2 class="text-2xl font-bold mb-4">Artículos Destacados</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <?php foreach (array_slice($articulos, 0, 4) as $articulo): ?>
+        <div class="product-card-container">
+            <div class="image-placeholder-replica">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>">
+                    <?php
+                    $imagenes = $articuloModel->getImagenes($articulo['id']);
+                    if (!empty($imagenes)): ?>
+                        <img src="<?= URL_BASE ?>uploads/articulos/<?= $imagenes[0]['ruta_imagen'] ?>"
+                            alt="<?= htmlspecialchars($articulo['titulo']) ?>"
+                            style="width:100%; height:100%; object-fit:cover;">
+                    <?php else: ?>
+                        <span>Imagen</span>
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="content-container">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>"
+                    class="product-title"><?= htmlspecialchars($articulo['titulo']) ?></a>
+                <div class="price-container">
+                    <span class="current-price">$ <?= number_format($articulo['precio'], 2, ',', '.') ?></span>
+                </div>
+                <?php if ($articulo['envio_gratis']): ?>
+                    <span class="shipping">Envío gratis</span>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<h2 class="text-2xl font-bold mb-4">Recientes</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <?php foreach (array_slice($articulos, 0, 4) as $articulo): ?>
+        <div class="product-card-container">
+            <div class="image-placeholder-replica">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>">
+                    <?php
+                    $imagenes = $articuloModel->getImagenes($articulo['id']);
+                    if (!empty($imagenes)): ?>
+                        <img src="<?= URL_BASE ?>uploads/articulos/<?= $imagenes[0]['ruta_imagen'] ?>"
+                            alt="<?= htmlspecialchars($articulo['titulo']) ?>"
+                            style="width:100%; height:100%; object-fit:cover;">
+                    <?php else: ?>
+                        <span>Imagen</span>
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="content-container">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>"
+                    class="product-title"><?= htmlspecialchars($articulo['titulo']) ?></a>
+                <div class="price-container">
+                    <span class="current-price">$ <?= number_format($articulo['precio'], 2, ',', '.') ?></span>
+                </div>
+                <?php if ($articulo['envio_gratis']): ?>
+                    <span class="shipping">Envío gratis</span>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<h2 class="text-2xl font-bold mb-4">Los mas vistos</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <?php foreach (array_slice($articulos, 0, 4) as $articulo): ?>
+        <div class="product-card-container">
+            <div class="image-placeholder-replica">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>">
+                    <?php
+                    $imagenes = $articuloModel->getImagenes($articulo['id']);
+                    if (!empty($imagenes)): ?>
+                        <img src="<?= URL_BASE ?>uploads/articulos/<?= $imagenes[0]['ruta_imagen'] ?>"
+                            alt="<?= htmlspecialchars($articulo['titulo']) ?>"
+                            style="width:100%; height:100%; object-fit:cover;">
+                    <?php else: ?>
+                        <span>Imagen</span>
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="content-container">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>"
+                    class="product-title"><?= htmlspecialchars($articulo['titulo']) ?></a>
+                <div class="price-container">
+                    <span class="current-price">$ <?= number_format($articulo['precio'], 2, ',', '.') ?></span>
+                </div>
+                <?php if ($articulo['envio_gratis']): ?>
+                    <span class="shipping">Envío gratis</span>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<h2 class="text-2xl font-bold mb-4">Te pueden interesar</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <?php foreach (array_slice($articulos, 0, 4) as $articulo): ?>
+        <div class="product-card-container">
+            <div class="image-placeholder-replica">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>">
+                    <?php
+                    $imagenes = $articuloModel->getImagenes($articulo['id']);
+                    if (!empty($imagenes)): ?>
+                        <img src="<?= URL_BASE ?>uploads/articulos/<?= $imagenes[0]['ruta_imagen'] ?>"
+                            alt="<?= htmlspecialchars($articulo['titulo']) ?>"
+                            style="width:100%; height:100%; object-fit:cover;">
+                    <?php else: ?>
+                        <span>Imagen</span>
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="content-container">
+                <a href="<?= URL_BASE ?>articulo.php?id=<?= $articulo['id'] ?>"
+                    class="product-title"><?= htmlspecialchars($articulo['titulo']) ?></a>
+                <div class="price-container">
+                    <span class="current-price">$ <?= number_format($articulo['precio'], 2, ',', '.') ?></span>
+                </div>
+                <?php if ($articulo['envio_gratis']): ?>
+                    <span class="shipping">Envío gratis</span>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<!-- Banner en la parte inferior -->
+<?php
+$footerBanners = $bannerModel->getByUbicacion('footer_top');
+if (!empty($footerBanners)):
+?>
+    <div class="banner-container" style="margin-top: 20px;">
+        <?php foreach ($footerBanners as $banner): ?>
+            <div class="banner">
+                <?php if ($banner['tipo'] === 'imagen' && !empty($banner['imagen_url'])): ?>
+                    <?php if (!empty($banner['link_url'])): ?>
+                        <a href="<?= htmlspecialchars($banner['link_url']) ?>" target="_blank">
+                            <img src="<?= URL_BASE ?>uploads/banners/<?= htmlspecialchars($banner['imagen_url']) ?>"
+                                alt="<?= htmlspecialchars($banner['titulo']) ?>"
+                                style="width:100%; height:auto; max-height:150px; object-fit:cover;">
+                        </a>
+                    <?php else: ?>
+                        <img src="<?= URL_BASE ?>uploads/banners/<?= htmlspecialchars($banner['imagen_url']) ?>"
+                            alt="<?= htmlspecialchars($banner['titulo']) ?>"
+                            style="width:100%; height:auto; max-height:150px; object-fit:cover;">
+                    <?php endif; ?>
+                <?php else: ?>
+                    <div style="padding:15px; text-align:center;">
+                        <h4><?= htmlspecialchars($banner['titulo']) ?></h4>
+                        <?php if (!empty($banner['link_url'])): ?>
+                            <a href="<?= htmlspecialchars($banner['link_url']) ?>" target="_blank">Ver más</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?php require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'footer.php'; ?>
